@@ -7,7 +7,7 @@ class KeyboardPublisher : public rclcpp::Node
 {
 public:
     KeyboardPublisher()
-        : Node("key_teleop"), linear_x_(0.0), angular_z_(0.0)
+        : Node("key_teleop"), _linear_x(0.0), _angular_z(0.0)
     {
         publisher_ = this->create_publisher<geometry_msgs::msg::Twist>("cmd_vel", 10);
         
@@ -29,28 +29,28 @@ public:
             switch (getch())
             {
             case 'w':
-                linear_x_ = 0.3;
-                angular_z_ = 0.0;
+                _linear_x = 0.3;
+                _angular_z = 0.0;
                 publish_message();
                 break;
             case 'x':
-                linear_x_ = -0.3;
-                angular_z_ = 0.0;
+                _linear_x = -0.3;
+                _angular_z = 0.0;
                 publish_message();
                 break;
             case 'a':
-                linear_x_ = 0.0;
-                angular_z_ = 0.3;
+                _linear_x = 0.0;
+                _angular_z = 0.3;
                 publish_message();
                 break;
             case 'd':
-                linear_x_ = 0.0;
-                angular_z_ = -0.3;
+                _linear_x = 0.0;
+                _angular_z = -0.3;
                 publish_message();
                 break;
             case 's':
-                linear_x_ = 0.0;
-                angular_z_ = 0.0;
+                _linear_x = 0.0;
+                _angular_z = 0.0;
                 publish_message();
                 break;
             default:
@@ -72,8 +72,8 @@ private:
     void publish_message()
     {
         auto message = geometry_msgs::msg::Twist();
-        message.linear.x = linear_x_;
-        message.angular.z = angular_z_;
+        message.linear.x = _linear_x;
+        message.angular.z = _angular_z;
         publisher_->publish(message);
     }
 
@@ -94,8 +94,8 @@ private:
 
     // rclcpp::TimerBase::SharedPtr timer_;
     rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr publisher_;
-    double linear_x_;
-    double angular_z_;
+    double _linear_x;
+    double _angular_z;
 };
 
 int main(int argc, char *argv[])
